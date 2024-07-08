@@ -1,5 +1,5 @@
 {
-  "name": "comitus",
+  "name": "cts.ai",
   "version": "4.0.0",
   "type": "module",
   "description": "✨ Make Github commits easier with ChatGPT, Gitmoji and Conventional Commits 🚀",
@@ -10,11 +10,11 @@
     "ollama": "PROVIDER=ollama node index.js "
   },
   "bin": {
-    "ai-commit": "./index.js"
+    "cts": "index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/insulineru/ai-commit.git"
+    "url": "git+https://github.com/insulineru/cts.git"
   },
   "keywords": [
     "ai",
@@ -27,9 +27,9 @@
   "author": "Insuline.ru <insuline.ru@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rustdevbtw/ai-commit/issues"
+    "url": "https://github.com/rustdevbtw/cts/issues"
   },
-  "homepage": "https://github.com/rustdevbtw/ai-commit#readme",
+  "homepage": "https://github.com/rustdevbtw/cts#readme",
   "dependencies": {
     "chatgpt": "^5.0.0",
     "dotenv": "^16.0.3",

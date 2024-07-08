@@ -1,5 +1,5 @@
 {
-  "name": "ai-commit",
+  "name": "comitus",
   "version": "3.0.0",
   "type": "module",
   "description": "✨ Make Github commits easier with ChatGPT, Gitmoji and Conventional Commits 🚀",
@@ -27,9 +27,9 @@
   "author": "Insuline.ru <insuline.ru@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/insulineru/ai-commit/issues"
+    "url": "https://github.com/rustdevbtw/ai-commit/issues"
   },
-  "homepage": "https://github.com/insulineru/ai-commit#readme",
+  "homepage": "https://github.com/rustdevbtw/ai-commit#readme",
   "dependencies": {
     "chatgpt": "^5.0.0",
     "dotenv": "^16.0.3",

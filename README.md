@@ -1,6 +1,11 @@
 <p align="center"><img width="400px" alt="Via Protocol is the most advanced cross-chain aggregation protocol" src="https://user-images.githubusercontent.com/20267733/218333677-ebdb09e5-9487-434c-92f5-f4bdcc76f632.png" width="100%">
 </p>
 
+# Forked
+This is a fork of [insulineru/ai-commit](https://github.com/insulineru/ai-commit) with support for using other OpenAI-compatible APIs.  
+For that, it also comes with [insulineru/ai-commit#26](https://github.com/insulineru/ai-commit/pull/26) merged, which refractors the codebase to split the OpenAI and Ollama providers.
+
+
 # **AI-Commit: The Commit Message Generator**
 
 💻 Tired of writing boring commit messages? Let AI-Commit help!

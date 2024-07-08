@@ -1,6 +1,19 @@
-import * as edn from "jsedn";
-import { readFile, exists } from "fs/promises";
+import edn from "jsedn";
+import { readFile, access, constants } from "fs/promises";
 import { homedir } from "os";
+
+async function exists(path) {
+  try {
+    await access(path, constants.F_OK);
+    return true; // File or directory exists
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      return false; // File or directory does not exist
+    } else {
+      throw err; // Other error (permission denied, etc.)
+    }
+  }
+}
 
 const local = process.cwd() + "/.cts/config.edn";
 const global = homedir() + "/.cts/config.edn";

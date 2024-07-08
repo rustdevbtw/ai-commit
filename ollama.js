@@ -1,4 +1,4 @@
-import "./configFile"
+import "./configFile.js"
 
 const ollama = {
   /**

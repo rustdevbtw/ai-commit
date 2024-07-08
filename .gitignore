@@ -1,3 +1,6 @@
+# Cts files
+.cts/msg
+
 # Logs
 logs
 *.log

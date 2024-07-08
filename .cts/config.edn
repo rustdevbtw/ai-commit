@@ -22,11 +22,12 @@
   :git {
     ; Enable commit signing
     :sign true
-    ; Inject hooks
-    :hooks [
-      ; Inject the pre-commit hook
-      "pre-commit"
-    ]
+    ; Enable hooks
+    ; When enabled, it checks for $GIT_DIR and $GIT_WORK_TREE
+    ; And if it stores the generated message to .cts/msg
+    ; You can then do, cat "$GIT_WORK_TREE"/.cts/msg > $1
+    ; You should then clean that message (it's recommended to add this file to .gitignore)
+    :hooks true
   }
   
   ; Cts options

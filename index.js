@@ -9,6 +9,7 @@ import { AI_PROVIDER, MODEL, args } from "./config.js"
 import openai from "./openai.js"
 import ollama from "./ollama.js"
 import "./configFile.js"
+import { writeFile } from "fs/promises";
 
 const REGENERATE_MSG = "♻️ Regenerate Commit Messages";
 
@@ -52,10 +53,16 @@ const processTemplate = ({ template, commitMessage }) => {
   return finalCommitMessage;
 }
 
-const makeCommit = (input) => {
-  console.log("Committing Message... 🚀 ");
-  execSync(`git commit ${sign ? "-s" : ""} -F -`, { input });
-  console.log("Commit Successful! 🎉");
+const makeCommit = async (input) => {
+  if (process.env.GIT_HOOKS) {
+    console.log("Git hook detected. Storing to .cts/msg");
+    await writeFile(".cts/msg", input);
+    console.log("Stored!");
+  } else {
+    console.log("Committing Message... 🚀 ");
+    execSync(`git commit ${sign ? "-s" : ""} -F -`, { input });
+    console.log("Commit Successful! 🎉");
+  }
 };
 
 
@@ -98,7 +105,7 @@ const generateSingleCommit = async (diff) => {
   }
 
   if (args.force || process.env.CTS_FORCE) {
-    makeCommit(finalCommitMessage);
+    await makeCommit(finalCommitMessage);
     return;
   }
 
@@ -116,7 +123,7 @@ const generateSingleCommit = async (diff) => {
     process.exit(1);
   }
 
-  makeCommit(finalCommitMessage);
+  await makeCommit(finalCommitMessage);
 };
 
 const generateListCommits = async (diff, numOptions = 5) => {

@@ -9,6 +9,7 @@
     "publish:major": "npm version major && npm publish --access public",
     "ollama": "PROVIDER=ollama node index.js ",
     "openai": "PROVIDER=openai node index.js",
+    "prepare": "husky"
   },
   "bin": {
     "cts": "index.js"

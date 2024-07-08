@@ -1,0 +1,3 @@
+exec < /dev/tty
+npm run openai
+cat .cts/msg > $1

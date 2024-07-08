@@ -80,7 +80,8 @@ You can also use any OpenAI-compatible third-party API as well.
 
 Apart from using the above options, you can also use a config file!  
 For that, create a new file at `.cts/config.edn`  
-For reference, see [`.cts/config.edn`](./.cts/config.edn).
+For reference, see [`.cts/config.edn`](./.cts/config.edn).  
+The file is in [Extensible Data Notation](https://github.com/edn-format/edn) format.
 
 ## Contributing
 We'd love for you to contribute to Comittus! Here's how:

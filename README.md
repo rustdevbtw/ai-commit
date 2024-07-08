@@ -15,10 +15,10 @@ This package uses the power of OpenAI's GPT-3 model to understand your code chan
 1. Install AI-Commit using `npm install -g ai-commit`
 2. Generate an OpenAI API key [here](https://platform.openai.com/account/api-keys )
 3. Set your `OPENAI_API_KEY` environment variable to your API key
-1. Make your code changes and stage them with `git add .`
-2. Type `ai-commit` in your terminal
-3. AI-Commit will analyze your changes and generate a commit message
-4. Approve the commit message and AI-Commit will create the commit for you ✅
+4. Make your code changes and stage them with `git add .`
+5. Type `ai-commit` in your terminal
+6. AI-Commit will analyze your changes and generate a commit message
+7. Approve the commit message and AI-Commit will create the commit for you ✅
 
 ## Using local model (ollama)
 
@@ -28,10 +28,23 @@ You can also use the local model for free with Ollama.
 2. Install Ollama from https://ollama.ai/
 3. Run `ollama run mistral` to fetch model for the first time
 4. Set `PROVIDER` in your environment to `ollama`
-1. Make your code changes and stage them with `git add .`
-2. Type `ai-commit` in your terminal
-3. AI-Commit will analyze your changes and generate a commit message
-4. Approve the commit message and AI-Commit will create the commit for you ✅
+5. Make your code changes and stage them with `git add .`
+6. Type `ai-commit` in your terminal
+7. AI-Commit will analyze your changes and generate a commit message
+8. Approve the commit message and AI-Commit will create the commit for you ✅
+
+## Using third-party OpenAI-compatible APIs (e.g Groq)
+
+You can also use any OpenAI-compatible third-party API as well.
+
+1. Install AI-Commit using `npm install -g ai-commit`
+2. Set `OPENAI_API_URL` to the base URL of your API
+3. Set `OPENAI_MODEL` to the model name you want to use
+4. Set `OPENAI_API_KEY` to your API Key for that API
+5. Make your code changes and stage them with `git add .`
+6. Type `ai-commit` in your terminal
+7. AI-Commit will analyze your changes and generate a commit message
+8. Approve the commit message and AI-Commit will create a commit for you ✅
 
 ## Options
 `--list`: Select from a list of 5 generated messages (or regenerate the list)

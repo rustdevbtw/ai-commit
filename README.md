@@ -72,8 +72,6 @@ You can also use any OpenAI-compatible third-party API as well.
 
 `--language`: Specify the language to use for the commit message(default: `english`). e.g. `--language english`
 
-`--commit-type`: Specify the type of commit to generate. This will be used as the type in the commit message e.g. `--commit-type feat`
-
 `--sign`: Specify whether to sign the commit. If set, adds `-s` to `git commit`.
 
 ## Configuration

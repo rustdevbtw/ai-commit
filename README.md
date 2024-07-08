@@ -5,6 +5,7 @@
   - [Using local model (ollama)](#using-local-model-ollama)
   - [Using third-party OpenAI-compatible APIs (e.g Groq)](#using-third-party-openai-compatible-apis-eg-groq)
   - [Options](#options)
+  - [Configuration](#configuration)
   - [Contributing](#contributing)
   - [Roadmap](#roadmap)
   - [License](#license)

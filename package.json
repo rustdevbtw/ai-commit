@@ -25,6 +25,13 @@
     "commits"
   ],
   "author": "Insuline.ru <insuline.ru@gmail.com>",
+  "contributors": [
+    {
+      "name": "Rajdeep Malakar",
+      "url": "https://rajdeepm.xyz",
+      "email": "rajdeepm.dev@gmail.com"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/rustdevbtw/cts/issues"

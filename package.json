@@ -1,6 +1,6 @@
 {
   "name": "comitus",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "type": "module",
   "description": "✨ Make Github commits easier with ChatGPT, Gitmoji and Conventional Commits 🚀",
   "main": "index.js",

@@ -1,3 +1,16 @@
+<!--toc:start-->
+- [Forked](#forked)
+- [**Comittus: The Commit Message Generator**](#comittus-the-commit-message-generator)
+  - [How it Works](#how-it-works)
+  - [Using local model (ollama)](#using-local-model-ollama)
+  - [Using third-party OpenAI-compatible APIs (e.g Groq)](#using-third-party-openai-compatible-apis-eg-groq)
+  - [Options](#options)
+  - [Contributing](#contributing)
+  - [Roadmap](#roadmap)
+  - [License](#license)
+  - [Happy coding 🚀](#happy-coding-🚀)
+<!--toc:end-->
+
 # Forked
 This is a fork of [insulineru/ai-commit](https://github.com/insulineru/ai-commit) with support for using other OpenAI-compatible APIs.  
 For that, it also comes with [insulineru/ai-commit#26](https://github.com/insulineru/ai-commit/pull/26) merged, which refractors the codebase to split the OpenAI and Ollama providers.
@@ -60,6 +73,14 @@ You can also use any OpenAI-compatible third-party API as well.
 `--language`: Specify the language to use for the commit message(default: `english`). e.g. `--language english`
 
 `--commit-type`: Specify the type of commit to generate. This will be used as the type in the commit message e.g. `--commit-type feat`
+
+`--sign`: Specify whether to sign the commit. If set, adds `-s` to `git commit`.
+
+## Configuration
+
+Apart from using the above options, you can also use a config file!  
+For that, create a new file at `.cts/config.edn`  
+For reference, see [`.cts/config.edn`](./.cts/config.edn).
 
 ## Contributing
 We'd love for you to contribute to Comittus! Here's how:

@@ -3,33 +3,34 @@
 'use strict'
 import { execSync } from "child_process";
 import inquirer from "inquirer";
-import { getArgs, checkGitRepository } from "./helpers.js";
+import { checkGitRepository } from "./helpers.js";
 import { addGitmojiToCommitMessage } from './gitmoji.js';
 import { AI_PROVIDER, MODEL, args } from "./config.js"
 import openai from "./openai.js"
 import ollama from "./ollama.js"
+import "./configFile.js"
 
 const REGENERATE_MSG = "♻️ Regenerate Commit Messages";
 
-console.log('Ai provider: ', AI_PROVIDER);
-
-const ENDPOINT = args.ENDPOINT || process.env.ENDPOINT
+console.log('AI Provider: ', AI_PROVIDER);
 
 const apiKey = args.apiKey || process.env.OPENAI_API_KEY;
 
-const language = args.language || process.env.AI_COMMIT_LANGUAGE || 'english';
+const language = args.language || process.env.CTS_LANGUAGE || process.env.AI_COMMIT_LANGUAGE || 'english';
+
+const sign = args.sign || process.env.GIT_SIGN || false;
 
 if (AI_PROVIDER == 'openai' && !apiKey) {
   console.error("Please set the OPENAI_API_KEY environment variable.");
   process.exit(1);
 }
 
-let template = args.template || process.env.AI_COMMIT_COMMIT_TEMPLATE
-const doAddEmoji = args.emoji || process.env.AI_COMMIT_ADD_EMOJI
+let template = args.template || process.env.CTS_TEMPLATE || process.env.AI_COMMIT_COMMIT_TEMPLATE
+const doAddEmoji = args.emoji || process.env.CTS_GITMOJI || process.env.AI_COMMIT_ADD_EMOJI
 
-const commitType = args['commit-type'];
+const commitType = args['commit-type'] || process.env.CTS_TYPE;
 
-const provider = AI_PROVIDER === 'ollama' ? ollama: openai
+const provider = AI_PROVIDER === 'ollama' ? ollama : openai
 
 const processTemplate = ({ template, commitMessage }) => {
   if (!template.includes('COMMIT_MESSAGE')) {
@@ -53,7 +54,7 @@ const processTemplate = ({ template, commitMessage }) => {
 
 const makeCommit = (input) => {
   console.log("Committing Message... 🚀 ");
-  execSync(`git commit -F -`, { input });
+  execSync(`git commit ${sign ? "-s" : ""} -F -`, { input });
   console.log("Commit Successful! 🎉");
 };
 
@@ -73,15 +74,15 @@ const getPromptForSingleCommit = (diff) => {
 const generateSingleCommit = async (diff) => {
   const prompt = getPromptForSingleCommit(diff)
   console.log(prompt)
-  if (!await provider.filterApi({ prompt, filterFee: args['filter-fee'] })) process.exit(1);
+  if (!await provider.filterApi({ prompt, filterFee: args['filter-fee'] || process.env.CTS_FEE })) process.exit(1);
 
   const text = await provider.sendMessage(prompt, { apiKey, model: MODEL });
 
-  let finalCommitMessage = processEmoji(text, args.emoji);
+  let finalCommitMessage = processEmoji(text, doAddEmoji);
 
-  if (args.template) {
+  if (template) {
     finalCommitMessage = processTemplate({
-      template: args.template,
+      template,
       commitMessage: finalCommitMessage,
     })
 
@@ -96,7 +97,7 @@ const generateSingleCommit = async (diff) => {
 
   }
 
-  if (args.force) {
+  if (args.force || process.env.CTS_FORCE) {
     makeCommit(finalCommitMessage);
     return;
   }
@@ -120,15 +121,15 @@ const generateSingleCommit = async (diff) => {
 
 const generateListCommits = async (diff, numOptions = 5) => {
   const prompt = provider.getPromptForMultipleCommits(diff, { commitType, numOptions, language })
-  if (!await provider.filterApi({ prompt, filterFee: args['filter-fee'], numCompletion: numOptions })) process.exit(1);
+  if (!await provider.filterApi({ prompt, filterFee: args['filter-fee'] || process.env.CTS_FEE, numCompletion: numOptions })) process.exit(1);
 
   const text = await provider.sendMessage(prompt, { apiKey, model: MODEL });
 
-  let msgs = text.split(";").map((msg) => msg.trim()).map(msg => processEmoji(msg, args.emoji));
+  let msgs = text.split(";").map((msg) => msg.trim()).map(msg => processEmoji(msg, doAddEmoji));
 
-  if (args.template) {
+  if (template) {
     msgs = msgs.map(msg => processTemplate({
-      template: args.template,
+      template,
       commitMessage: msg,
     }))
   }
@@ -173,7 +174,7 @@ async function generateAICommit() {
   }
 
 
-  args.list
+  (process.env.CTS_LIST || args.list)
     ? await generateListCommits(diff)
     : await generateSingleCommit(diff);
 }

@@ -1,10 +1,13 @@
+import "./configFile"
+
 const ollama = {
   /**
    * send prompt to ai.
    */
   sendMessage: async (input, { apiKey, model }) => {
     //mistral as default since it's fast and clever model
-    const url = "http://127.0.0.1:11434/api/generate";
+    let OLLAMA_URL = process.env.OLLAMA_URL || "http://127.0.0.1:11434"
+    const url = `${OLLAMA_URL}/api/generate`;
     const data = {
       model: model || 'mistral',
       prompt: input,

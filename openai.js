@@ -11,7 +11,7 @@ const FEE_COMPLETION = 0.001;
 
 const openai = {
   sendMessage: async (input, { apiKey, model }) => {
-    console.log("prompting chat gpt...");
+    console.log("prompting OpenAI...");
     console.log("prompt: ", input);
     const api = new ChatGPTAPI({
       apiKey,

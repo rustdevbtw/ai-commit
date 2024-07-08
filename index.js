@@ -28,7 +28,7 @@ if (AI_PROVIDER == 'openai' && !apiKey) {
 let template = args.template || process.env.CTS_TEMPLATE || process.env.AI_COMMIT_COMMIT_TEMPLATE
 const doAddEmoji = args.emoji || process.env.CTS_GITMOJI || process.env.AI_COMMIT_ADD_EMOJI
 
-const commitType = args['commit-type'] || process.env.CTS_TYPE;
+let types = process.env.CTS_TYPES;
 
 const provider = AI_PROVIDER === 'ollama' ? ollama : openai
 
@@ -68,7 +68,7 @@ const processEmoji = (msg, doAddEmoji) => {
 }
 
 const getPromptForSingleCommit = (diff) => {
-  return provider.getPromptForSingleCommit(diff, { commitType, language })
+  return provider.getPromptForSingleCommit(diff, { types, language })
 };
 
 const generateSingleCommit = async (diff) => {
@@ -120,7 +120,7 @@ const generateSingleCommit = async (diff) => {
 };
 
 const generateListCommits = async (diff, numOptions = 5) => {
-  const prompt = provider.getPromptForMultipleCommits(diff, { commitType, numOptions, language })
+  const prompt = provider.getPromptForMultipleCommits(diff, { types, numOptions, language })
   if (!await provider.filterApi({ prompt, filterFee: args['filter-fee'] || process.env.CTS_FEE, numCompletion: numOptions })) process.exit(1);
 
   const text = await provider.sendMessage(prompt, { apiKey, model: MODEL });

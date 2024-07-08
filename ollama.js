@@ -34,10 +34,10 @@ const ollama = {
     }
   },
 
-  getPromptForSingleCommit: (diff, { commitType, language }) => {
+  getPromptForSingleCommit: (diff, { types, language }) => {
     return (
       `Summarize this git diff into a useful, 10 words commit message in ${language}` +
-      (commitType ? ` with commit type '${commitType}.'` : "") +
+      (types ? ` with possible commit types: '${types}.'` : "") +
       ": " +
       diff
     );
@@ -45,12 +45,12 @@ const ollama = {
 
   getPromptForMultipleCommits: (
     diff,
-    { commitType, numOptions, language }
+    { types, numOptions, language }
   ) => {
     const prompt =
       "I want you to act as the author of a commit message in git." +
       `I'll enter a git diff, and your job is to convert it into a useful commit message in ${language} language` +
-      (commitType ? ` with commit type '${commitType}.', ` : ", ") +
+      (types ? ` with possible commit types: '${types}.', ` : ", ") +
       `and make ${numOptions} options that are separated by ";".` +
       "For each option, use the present tense, return the full sentence, and use the conventional commits specification (<type in lowercase>: <subject>):" +
       diff;

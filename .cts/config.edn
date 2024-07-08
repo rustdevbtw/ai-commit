@@ -46,9 +46,6 @@
       "patch"
       "update"
     ]
-    ; The default commit type.
-    ; "auto" to let the AI select it
-    :type "auto"
     ; Show the cost of the request, and confirm that before making the request
     :fee true
     ; The commit message template

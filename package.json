@@ -8,8 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "publish:major": "npm version major && npm publish --access public",
     "ollama": "PROVIDER=ollama node index.js ",
-    "openai": "PROVIDER=openai node index.js",
-    "prepare": "husky"
+    "openai": "PROVIDER=openai node index.js"
   },
   "bin": {
     "cts": "index.js"

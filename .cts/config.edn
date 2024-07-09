@@ -44,12 +44,13 @@
     :gitmoji true
     ; Types to select from
     :types [
-      "docs"
       "feat"
       "fix"
-      "perf"
-      "patch"
-      "update"
+      "docs"
+      "style"
+      "refactor"
+      "test"
+      "chore"
     ]
     ; Show the cost of the request, and confirm that before making the request
     :fee true
@@ -66,5 +67,13 @@
   ; But it no longer does, as of v4.0.0
   ; Example:
   ; :docs "📝"
-  :gitmoji {}
+  :gitmoji {
+    :feat "✨"
+    :fix "🚑"
+    :docs "📝"
+    :style "💄"
+    :refactor "♻️"
+    :test "✅"
+    :chore "🔧"
+  }
 }

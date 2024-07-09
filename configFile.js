@@ -1,7 +1,7 @@
 import edn from "jsedn";
 import { readFile, access, constants } from "node:fs/promises";
 import { homedir } from "node:os";
-import process from "node:process"
+import process from "node:process";
 
 async function exists(path) {
   try {
@@ -16,40 +16,40 @@ async function exists(path) {
   }
 }
 
-const local = process.cwd() + "/.cts/config.edn";
-const global = homedir() + "/.cts/config.edn";
+const paths = [
+  `${homedir()}/.cts/config.edn`,
+  `${process.env.XDG_CONFIG_HOME || `${homedir()}/.config`}/cts/config.edn`,
+  `${homedir()}/.config/cts/config.edn`,
+  `${process.cwd()}/.cts/config.edn`
+];
 
-async function setit(p) {
-  let f = (await readFile(p)).toString("utf8");
-  let conf = edn.toJS(edn.parse(f));
+async function loadConfigAndSetEnv(path) {
+  const fileContent = await readFile(path, 'utf8');
+  const config = edn.toJS(edn.parse(fileContent));
 
-  function strip(key) {
-    return key.replace(":", "");
+  function formatKey(key) {
+    return key.replace(":", "").toUpperCase();
   }
 
-  function set(c, prefix) {
-    for (const key in c) {
-      let k = strip(key);
-      let is_obj = (c[key] instanceof Object) && !(c[key] instanceof Array);
-      if (is_obj) {
-        set(c[key], `${k}_`);
-      } else {
-        let is_arr = c[key] instanceof Array;
-        let is_bool = typeof c[key] == "boolean";
-        if (is_arr) {
-          c[key] = c[key].join(",");
-        } else if (is_bool) {
-          c[key] = c[key] ? 1 : 0;
-        }
+  function setEnvVars(configObject, prefix = "") {
+    for (const key in configObject) {
+      const formattedKey = formatKey(prefix + key);
+      const value = configObject[key];
 
-        let n = `${prefix}${k}`.toUpperCase();
-        process.env[n] = c[key];
+      if (typeof value === 'object' && !Array.isArray(value)) {
+        setEnvVars(value, `${formattedKey}_`);
+      } else {
+        const formattedValue = Array.isArray(value) ? value.join(",") : (typeof value === 'boolean' ? (value ? 1 : 0) : value);
+        process.env[formattedKey] = formattedValue;
       }
     }
   }
 
-  set(conf, "");
+  setEnvVars(config);
 }
 
-if (await exists(global)) await setit(global);
-if (await exists(local)) await setit(local);
+for (const path of paths) {
+  if (await exists(path)) {
+    await loadConfigAndSetEnv(path);
+  }
+}

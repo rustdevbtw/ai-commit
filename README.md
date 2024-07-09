@@ -80,14 +80,29 @@ You can also use any OpenAI-compatible third-party API as well.
 
 ## Configuration
 
-Apart from using the above options, you can also use a config file!  
-For that, create a new file at `.cts/config.edn`  
-For reference, see [`.cts/config.edn`](./.cts/config.edn).  
-The file is in [Extensible Data Notation](https://github.com/edn-format/edn) format.  
+You can also use a config file to set up cts!  
+To do this, create a new file at `.cts/config.edn`.  
+For reference, see the [`.cts/config.edn`](./.cts/config.edn).  
+This file uses the [Extensible Data Notation (EDN)](https://github.com/edn-format/edn) format.
 
-There are two types of config files: `global` amd `local`.  
-Local config file is the one in `$(cwd)/.cts/config.edn` and the Global one is at `~/.cts/config.edn`.  
-Their data is merged, and the local one takes precedence.
+### Config File Types
+
+There are two types of config files: `global` and `local`.
+
+- **Global Config File:** Located at `~/.cts/config.edn`
+- **Local Config File:** Located at `$(cwd)/.cts/config.edn`
+
+### Loading Approach
+
+The data from these config files is merged, with the local config file taking precedence over the global one. The config files are loaded in the following order:
+
+1. **Global Config File:**
+   - `$HOME/.cts/config.edn`
+   - `$XDG_CONFIG_HOME/cts/config.edn` (if `$XDG_CONFIG_HOME` is set)
+   - `$HOME/.config/cts/config.edn`
+
+2. **Local Config File:**
+   - `$(cwd)/.cts/config.edn`
 
 ## Git Hooks
 To use cts as a Git hook, create a new dir `.git_hooks` (or whatever you prefer).  

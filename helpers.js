@@ -1,4 +1,7 @@
-import { execSync } from "child_process";
+import { exec } from "node:child_process";
+import { promisify } from "node:util";
+
+const execPromise = promisify(exec);
 
 const getArgs = () => {
   const args = process.argv.slice(2);
@@ -19,11 +22,13 @@ const getArgs = () => {
   return result;
 };
 
-const checkGitRepository = () => {
+const checkGitRepository = async () => {
   try {
-    const output = execSync('git rev-parse --is-inside-work-tree', { encoding: 'utf-8' });
-    return output.trim() === 'true';
+    const { stdout, stderr } = await execPromise('git rev-parse --is-inside-work-tree');
+    if (!stderr) return stdout.trim() === 'true';
+    throw new Error(`Git error:\n${stderr}`);
   } catch (err) {
+    console.log(err);
     return false;
   }
 };

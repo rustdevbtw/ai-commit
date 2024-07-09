@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 'use strict'
-import { execSync } from "child_process";
+import { exec, execSync } from "node:child_process";
+import { promisify } from "node:util";
 import inquirer from "inquirer";
 import { checkGitRepository } from "./helpers.js";
 import { addGitmojiToCommitMessage } from './gitmoji.js';
@@ -9,7 +10,9 @@ import { AI_PROVIDER, MODEL, args } from "./config.js"
 import openai from "./openai.js"
 import ollama from "./ollama.js"
 import "./configFile.js"
-import { writeFile } from "fs/promises";
+import { writeFile } from "node:fs/promises";
+
+const execPromise = promisify(exec);
 
 const REGENERATE_MSG = "♻️ Regenerate Commit Messages";
 
@@ -19,7 +22,7 @@ const apiKey = args.apiKey || process.env.OPENAI_API_KEY;
 
 const language = args.language || process.env.CTS_LANGUAGE || process.env.AI_COMMIT_LANGUAGE || 'english';
 
-const sign = args.sign || process.env.GIT_SIGN || false;
+const pass = args.pass || process.env.GIT_PASS || false;
 
 if (AI_PROVIDER == 'openai' && !apiKey) {
   console.error("Please set the OPENAI_API_KEY environment variable.");
@@ -54,14 +57,25 @@ const processTemplate = ({ template, commitMessage }) => {
 }
 
 const makeCommit = async (input) => {
-  if (process.env.GIT_HOOKS) {
-    console.log("Git hook detected. Storing to .cts/msg");
-    await writeFile(".cts/msg", input);
-    console.log("Stored!");
-  } else {
-    console.log("Committing Message... 🚀 ");
-    execSync(`git commit ${sign ? "-s" : ""} -F -`, { input });
-    console.log("Commit Successful! 🎉");
+  try {
+    if (process.env.GIT_HOOKS && args["as-hook"]) {
+      const sign = process.env.GIT_SIGN;
+      const name = process.env["GIT_COMMITTER_NAME"];
+      const email = process.env["GIT_COMMITTER_EMAIL"];
+      if (sign) {
+        console.log("Signing...");
+        input += `\n\nSigned-off-by: ${name} <${email}>`;
+      }
+      console.log("Git hook detected. Storing to .cts/msg");
+      await writeFile(".cts/msg", input);
+      console.log("Stored!");
+    } else {
+      console.log("Committing Message... 🚀 ");
+      await execPromise(`git commit ${pass || ""} -m "${input || ""}"`);
+      console.log("Commit Successful! 🎉");
+    }
+  } catch (err) {
+    throw new Error(`Error:\n${err}`);
   }
 };
 
@@ -88,7 +102,7 @@ const generateSingleCommit = async (diff) => {
   let finalCommitMessage = processEmoji(text, doAddEmoji);
 
   if (template) {
-    finalCommitMessage = processTemplate({
+    finalCommitMessage = await processTemplate({
       template,
       commitMessage: finalCommitMessage,
     })
@@ -162,14 +176,14 @@ const generateListCommits = async (diff, numOptions = 5) => {
 };
 
 async function generateAICommit() {
-  const isGitRepository = checkGitRepository();
+  const isGitRepository = await checkGitRepository();
 
   if (!isGitRepository) {
     console.error("This is not a git repository 🙅‍♂️");
     process.exit(1);
   }
 
-  const diff = execSync("git diff --staged").toString();
+  const diff = (await execPromise("git diff --staged")).stdout.toString();
 
   // Handle empty diff
   if (!diff) {

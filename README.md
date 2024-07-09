@@ -74,7 +74,9 @@ You can also use any OpenAI-compatible third-party API as well.
 
 `--language`: Specify the language to use for the commit message(default: `english`). e.g. `--language english`
 
-`--sign`: Specify whether to sign the commit. If set, adds `-s` to `git commit`.
+`--pass`: Specify arguments to add to `git commit`. They are added as-is.
+
+`--sign`: Enable commit signing (for hooks only).
 
 ## Configuration
 
@@ -92,9 +94,44 @@ Their data is merged, and the local one takes precedence.
 To use Cts in a Git hook, first install [`husky`](https://www.npmjs.com/package/husky) (via `npm i -g husky`).  
 Then, add the following to your `.husky/prepare-commit-msg`:
 ```sh
-exec < /dev/tty
-cts
-cat .cts/msg > $1
+#!/bin/sh
+
+# Automatically export all variables to child processes
+set -a
+
+export GIT_COMMITTER_NAME=$(git config user.name)
+export GIT_COMMITTER_EMAIL=$(git config user.email)
+
+# Read from the terminal
+exec </dev/tty
+
+# Path to the commit message file
+commit_msg_file="$1"
+
+# Read the commit message file content
+commit_msg=$(cat "$commit_msg_file")
+
+# Filter out comment lines and empty lines
+non_comment_lines=$(echo "$commit_msg" | sed '/^\s*#/d' | sed '/^\s*$/d')
+
+# Check if the commit message is empty or contains only comments
+if [ -z "$non_comment_lines" ]; then
+  cts --as-hook
+  # If the commit message is empty, replace it with .cts/msg
+  cat .cts/msg >"$commit_msg_file"
+  exit 0
+elif [ "$(echo "$non_comment_lines" | wc -l)" -eq 1 ] && echo "$non_comment_lines" | grep -q '^Signed-off-by:'; then
+  cts --as-hook
+  # If the only non-comment line is "Signed-off-by:", prepend .cts/msg to .git/COMMIT_EDITMSG
+  {
+    cat .cts/msg
+    echo "$commit_msg"
+  } >"$commit_msg_file"
+  exit 0
+else
+  # Exit successfully if the commit message is provided and valid
+  exit 0
+fi
 ```
 Then, you can do `git add .` and `git commit` (yes, without any `-m`).  
 Be warned, though, once it generates the commit message, git will open that in your configured editor.  

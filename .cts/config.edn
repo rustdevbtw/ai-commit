@@ -20,14 +20,18 @@
   
   ; Git options
   :git {
-    ; Enable commit signing
+    ; Enable Git signing (only for hooks)
+    ; For normal usage, add "-s" to :pass instead
     :sign true
     ; Enable hooks
-    ; When enabled, it checks for $GIT_DIR and $GIT_WORK_TREE
-    ; And if it stores the generated message to .cts/msg
-    ; You can then do, cat "$GIT_WORK_TREE"/.cts/msg > $1
-    ; You should then clean that message (it's recommended to add this file to .gitignore)
+    ; When enabled, it checks for --as-hook
+    ; And if it specified stores the generated message to .cts/msg
+    ; You can then do, cat ".cts/msg > $1
+    ; You should then clean that message file (it's recommended to add this file to .gitignore)
     :hooks true
+    ; Additional arguments to pass to Git (only applicable when running outside a hook)
+    ; they would be added as-it-is
+    :pass "-s"
   }
   
   ; Cts options

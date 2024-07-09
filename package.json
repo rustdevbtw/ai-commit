@@ -40,10 +40,10 @@
   },
   "homepage": "https://github.com/rustdevbtw/cts#readme",
   "dependencies": {
-    "chatgpt": "^5.0.0",
-    "dotenv": "^16.0.3",
+    "chatgpt": "^5.2.5",
+    "dotenv": "^16.4.5",
     "gpt-3-encoder": "^1.1.4",
-    "inquirer": "^9.1.4",
+    "inquirer": "^9.3.5",
     "jsedn": "^0.4.1"
   }
 }

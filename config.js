@@ -1,4 +1,4 @@
-
+import process from "node:process"
 import * as dotenv from 'dotenv';
 import { getArgs } from './helpers.js';
 import "./configFile.js"

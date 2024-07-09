@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 'use strict'
+import process from "node:process"
 import { exec, execSync } from "node:child_process";
 import { promisify } from "node:util";
 import inquirer from "inquirer";

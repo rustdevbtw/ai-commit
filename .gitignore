@@ -1,6 +1,8 @@
 # Cts files
 .cts/msg
 
+deno.lock
+
 # Logs
 logs
 *.log

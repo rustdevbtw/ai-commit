@@ -1,6 +1,7 @@
 import edn from "jsedn";
-import { readFile, access, constants } from "fs/promises";
-import { homedir } from "os";
+import { readFile, access, constants } from "node:fs/promises";
+import { homedir } from "node:os";
+import process from "node:process"
 
 async function exists(path) {
   try {

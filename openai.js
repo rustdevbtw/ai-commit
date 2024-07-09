@@ -1,3 +1,4 @@
+import process from "node:process"
 import { ChatGPTAPI } from "chatgpt";
 
 import { encode } from 'gpt-3-encoder';

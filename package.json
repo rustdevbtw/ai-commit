@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "publish:major": "npm version major && npm publish --access public",
     "ollama": "PROVIDER=ollama node index.js ",
-    "openai": "PROVIDER=openai node index.js"
+    "openai": "PROVIDER=openai node index.js",
+    "prepare": "git config core.hooksPath '.git_hooks'"
   },
   "bin": {
     "cts": "index.js"

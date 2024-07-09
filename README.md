@@ -90,9 +90,8 @@ Local config file is the one in `$(cwd)/.cts/config.edn` and the Global one is a
 Their data is merged, and the local one takes precedence.
 
 ## Git Hooks
-
-To use Cts in a Git hook, first install [`husky`](https://www.npmjs.com/package/husky) (via `npm i -g husky`).  
-Then, add the following to your `.husky/prepare-commit-msg`:
+To use cts as a Git hook, create a new dir `.git_hooks` (or whatever you prefer).  
+In it, create a `.git_hooks/prepare-commit-msg` file:
 ```sh
 #!/bin/sh
 
@@ -133,6 +132,7 @@ else
   exit 0
 fi
 ```
+Then, configure Git to use it via `git config core.hooksPath ".git_hooks"`.  
 Then, you can do `git add .` and `git commit` (yes, without any `-m`).  
 Be warned, though, once it generates the commit message, git will open that in your configured editor.  
 and that's `vim` by default. So, remember, to `:wq`!

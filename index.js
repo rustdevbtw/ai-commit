@@ -16,7 +16,7 @@ import { promisify } from "node:util";
 import inquirer from "inquirer";
 import { checkGitRepository } from "./helpers.js";
 import { addGitmojiToCommitMessage } from './gitmoji.js';
-import { AI_PROVIDER, MODEL, args } from "./config.js"
+import { AI_PROVIDER, MODEL, OPENAI_API_URL, args } from "./config.js"
 import openai from "./openai.js"
 import ollama from "./ollama.js"
 import "./configFile.js"
@@ -27,6 +27,7 @@ const execPromise = promisify(exec);
 const REGENERATE_MSG = "♻️ Regenerate Commit Messages";
 
 console.log('AI Provider: ', AI_PROVIDER);
+if (AI_PROVIDER == "openai") console.log(`OpenAI Base URL: ${OPENAI_API_URL}`);
 
 const apiKey = args.apiKey || process.env.OPENAI_API_KEY;
 

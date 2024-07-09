@@ -1,0 +1,3 @@
+[submodule "vendor/edn"]
+	path = vendor/edn
+	url = https://github.com/rustdevbtw/edn.js

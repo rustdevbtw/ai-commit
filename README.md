@@ -6,6 +6,8 @@
   - [Using third-party OpenAI-compatible APIs (e.g Groq)](#using-third-party-openai-compatible-apis-eg-groq)
   - [Options](#options)
   - [Configuration](#configuration)
+    - [Config File Types](#config-file-types)
+    - [Loading Approach](#loading-approach)
   - [Git Hooks](#git-hooks)
   - [Contributing](#contributing)
   - [Roadmap](#roadmap)

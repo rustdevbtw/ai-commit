@@ -1,6 +1,6 @@
 {
   "name": "cts.ai",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "type": "module",
   "description": "✨ Make Github commits easier with ChatGPT, Gitmoji and Conventional Commits 🚀",
   "main": "index.js",
@@ -42,7 +42,11 @@
   "dependencies": {
     "chatgpt": "^5.2.5",
     "dotenv": "^16.4.5",
+    "@internal/edn": "git+https://github.com/rustdevbtw/edn.js.git#master",
     "gpt-3-encoder": "^1.1.4",
     "inquirer": "^9.3.5"
-  }
+  },
+  "trustedDependencies": [
+    "@internal/edn"
+  ]
 }

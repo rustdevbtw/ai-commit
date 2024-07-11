@@ -2,6 +2,7 @@
 .cts/msg
 
 deno.lock
+yarn.lock
 
 # Logs
 logs

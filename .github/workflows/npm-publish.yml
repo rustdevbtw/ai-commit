@@ -21,7 +21,7 @@ jobs:
       - name: Attest Build Provenance
         uses: actions/attest-build-provenance@v1.3.3
         with:
-          subject-path: '${{ github.workspace }'
+          subject-path: '${{github.workspace}}'
 
   publish-npm:
     needs: build

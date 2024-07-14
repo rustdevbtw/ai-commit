@@ -8,12 +8,44 @@
  */
 
 import process from "node:process"
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 import { getArgs } from './helpers.js';
 import "./configFile.js"
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import blakejs from 'blakejs';
 
-dotenv.config();
+const { blake2bHex } = blakejs;
 
+// Helper function to compute BLAKE2 hash
+const computeB2 = (input) => {
+  return blake2bHex(input);
+};
+
+// Resolve __dirname in ES6 modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Define the paths
+const paths = [
+  path.join(process.env.HOME, '.cts/env'),
+  path.join(process.env.HOME, '.env/cts.env'),
+  path.join(process.env.XDG_CONFIG_DIR || path.join(process.env.HOME, '.config'), '.config/cts/env'),
+  path.join(process.env.XDG_CONFIG_DIR || path.join(process.env.HOME, '.config'), '.config/env/cts.env'),
+  path.join(process.cwd(), '.cts/env'),
+  path.join(process.cwd(), '.env/cts'),
+  path.join(process.env.HOME, `.env/${computeB2(process.cwd())}.env`),
+  path.join(process.cwd(), '.env')
+];
+
+// Load env files in order
+for (const envPath of paths) {
+  if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath });
+    console.log(`Loaded ENV from ${envPath}`);
+  }
+}
 export const args = getArgs();
 
 /**

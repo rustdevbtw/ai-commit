@@ -40,9 +40,10 @@
   },
   "homepage": "https://github.com/rustdevbtw/cts#readme",
   "dependencies": {
+    "@internal/edn": "git+https://github.com/rustdevbtw/edn.js.git#master",
+    "blakejs": "^1.2.1",
     "chatgpt": "^5.2.5",
     "dotenv": "^16.4.5",
-    "@internal/edn": "git+https://github.com/rustdevbtw/edn.js.git#master",
     "gpt-3-encoder": "^1.1.4",
     "inquirer": "^9.3.5"
   },

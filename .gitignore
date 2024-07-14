@@ -1,6 +1,12 @@
-# Cts files
-.cts/msg
+# Zed files
+/.lsp
+# (only needed because Zed's LSP for EDN depends on Clojure LSP, and it creates this dir for cache)
+/.clj-kondo
 
+# Cts files
+*.cts/msg
+
+# Lock files
 deno.lock
 yarn.lock
 

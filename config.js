@@ -31,10 +31,10 @@ const __dirname = path.dirname(__filename);
 const paths = [
   path.join(process.env.HOME, '.cts/env'),
   path.join(process.env.HOME, '.env/cts.env'),
-  path.join(process.env.XDG_CONFIG_DIR || path.join(process.env.HOME, '.config'), '.config/cts/env'),
-  path.join(process.env.XDG_CONFIG_DIR || path.join(process.env.HOME, '.config'), '.config/env/cts.env'),
+  path.join(process.env.XDG_CONFIG_DIR || path.join(process.env.HOME, '.config'), '/cts/env'),
+  path.join(process.env.XDG_CONFIG_DIR || path.join(process.env.HOME, '.config'), '/env/cts.env'),
   path.join(process.cwd(), '.cts/env'),
-  path.join(process.cwd(), '.env/cts'),
+  path.join(process.cwd(), '.env/cts.env'),
   path.join(process.env.HOME, `.env/${computeB2(process.cwd())}.env`),
   path.join(process.cwd(), '.env')
 ];

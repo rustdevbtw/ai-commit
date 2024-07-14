@@ -85,7 +85,17 @@ You can also use any OpenAI-compatible third-party API as well.
 You can also use a config file to set up cts!  
 To do this, create a new file at `.cts/config.edn`.  
 For reference, see the [`.cts/config.edn`](./.cts/config.edn).  
-This file uses the [Extensible Data Notation (EDN)](https://github.com/edn-format/edn) format.
+This file uses the [Extensible Data Notation (EDN)](https://github.com/edn-format/edn) format.  
+
+Also, for ENV Variables, you can use any of the following env files (in the order of least to most priority):
+- `$HOME/.cts/env`
+- `$HOME/.env/cts.env`
+- `$HOME/.config/cts/env`
+- `$HOME/.config/env/cts.env`
+- `$(pwd)/.cts/env`
+- `$(pwd)/.env/cts.env`
+- `$HOME/.env/$(echo $(pwd) | b2sum).env`
+- `$(pwd)/.env`
 
 ### Config File Types
 
